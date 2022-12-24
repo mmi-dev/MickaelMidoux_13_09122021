@@ -1,0 +1,81 @@
+{
+    "users":[
+        {
+        "_id": {
+          "$oid": "639aea04986ed17c940baea7"
+        },
+        "email": "tony@stark.com",
+        "password": "$2b$12$MfsN48N0us2XqpIeXx.AAu3VR8f1iJf7gqj17Hy7MIEZQGXI1Lgou",
+        "firstName": "Tony",
+        "lastName": "Stark",
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1671096836589"
+          }
+        },
+        "updatedAt": {
+          "$date": {
+            "$numberLong": "1671096836589"
+          }
+        },
+        "__v": 0
+      },
+      {
+        "_id": {
+          "$oid": "639aea04986ed17c940baea8"
+        },
+        "email": "steve@rogers.com",
+        "password": "$2b$12$Q0mMusI7z5jVqJUGgpyhBen5.CyS27IEZ50Dt.O2i1i0E991RWef.",
+        "firstName": "Steve",
+        "lastName": "Rogers",
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1671096836596"
+          }
+        },
+        "updatedAt": {
+          "$date": {
+            "$numberLong": "1671096836596"
+          }
+        },
+        "__v": 0
+      }
+    ],
+    "features":[
+        {
+            "icon":"../assets/img/icon-chat.png",
+            "iconAlt":"Chat Icon",
+            "title":"You are our #1 priority",
+            "text":"Need to talk to a representative? You can get in touch through our 24/7 chat or through a phone call in less than 5 minutes."
+        },
+        {
+            "icon":"../assets/img/icon-money.png",
+            "iconAlt":"Money Icon",
+            "title":"More savings means higher rates",
+            "text":"The more you save with us, the higher your interest rate will be!"
+        },
+        {
+            "icon":"../assets/img/icon-security.png",
+            "iconAlt":"Security Icon",
+            "title":"Security you can trust",
+            "text":"We use top of the line encryption to make sure your data and money is always safe."
+        }
+    ],
+    "bank-information":{
+        "01":{
+            "title":"Argent Bank Checking (x8349)",
+            "amount":2082.79,
+            "description":"Available Balance"
+        },
+        "02":{
+            "title":"Argent Bank Savings (x6712)",
+            "amount":10928.42,
+            "description":"Available Balance"
+        },
+        "03":{
+            "title":"Argent Bank Checking (x8349)",
+            "amount":184.30,
+            "description":"Current Balance"
+        }
+    }
+}

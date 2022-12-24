@@ -1,19 +1,26 @@
-import { useState } from 'react'
-import reactLogo from '../assets/react.svg'
+import { useState, useContext, useEffect } from 'react'
+import reactLogo from './assets/react.svg'
 import './App.css'
 
 import { Routes, Route, Navigate, useRouteError } from 'react-router-dom';
 
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import AuthContext from './contexts/AuthProvider';
 
-import Home from '../pages/Home'
-import SignIn from '../pages/SignIn'
-import User from '../pages/User'
-import Error from '../pages/Error'
+import Header from './components/Header'
+import Footer from './components/Footer'
+
+import Home from './pages/Home'
+import SignIn from './pages/SignIn'
+import User from './pages/User'
+import Error from './pages/Error'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const {setAuth} = useContext(AuthContext);
+
+  useEffect(()=>{
+    !sessionStorage.auth ? {} : setAuth(JSON.parse(sessionStorage.auth))
+  },[])
 
   return (
     <div className="App">

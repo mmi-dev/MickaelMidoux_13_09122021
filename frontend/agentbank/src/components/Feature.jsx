@@ -1,5 +1,5 @@
 function Feature({title,icon,alt,text}) {
-    console.log({title,icon,alt,text})
+    
     return ( 
         <div className="feature-item">
             <img src={icon} alt={alt} className="feature-icon" />

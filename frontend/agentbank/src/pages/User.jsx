@@ -3,7 +3,7 @@ import { useEffect, useContext } from "react";
 function User() {
 
     useEffect(()=>{
-        console.log(document.getElementById('main').classList.add('bg-dark'))
+        document.getElementById('main').classList.add('bg-dark')
     })
 
     return (<><div className="header">

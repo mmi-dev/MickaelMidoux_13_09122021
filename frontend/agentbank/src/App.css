@@ -1,9 +1,3 @@
-/* #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-} */
 html {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -12,7 +6,9 @@ html {
   color: #2c3e50;
 }
 
-body, #root, .App{
+body,
+#root,
+.App {
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -84,7 +80,7 @@ body, #root, .App{
 }
 
 .hero {
-  background-image: url('./assets/img/bank-tree.jpeg');
+  background-image: url("./assets/img/bank-tree.jpeg");
   background-position: 0 -50px;
   background-size: cover;
   background-repeat: no-repeat;

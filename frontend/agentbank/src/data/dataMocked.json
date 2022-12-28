@@ -61,21 +61,21 @@
             "text":"We use top of the line encryption to make sure your data and money is always safe."
         }
     ],
-    "bank-information":{
-        "01":{
+    "accounts":[
+        {
             "title":"Argent Bank Checking (x8349)",
             "amount":2082.79,
             "description":"Available Balance"
         },
-        "02":{
+        {
             "title":"Argent Bank Savings (x6712)",
             "amount":10928.42,
             "description":"Available Balance"
         },
-        "03":{
-            "title":"Argent Bank Checking (x8349)",
+        {
+            "title":"Argent Bank Credit Card (x8349)",
             "amount":184.30,
             "description":"Current Balance"
         }
-    }
+      ]
 }

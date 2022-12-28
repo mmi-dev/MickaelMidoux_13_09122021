@@ -15,8 +15,7 @@ function User() {
   const navigate = useNavigate();
 
   const getUser = async () => {
-    const response = await getUserProfile(sessionStorage.getItem("token"));
-    getAccounts().then((res) => setAccounts(res));
+    const response = await getUserProfile(sessionStorage.token);
     if (response.responseStatus === 200) {
       setUser({
         ...user,
@@ -24,6 +23,9 @@ function User() {
         lastName: response.userProfile.lastName,
         id: response.userProfile.id,
       });
+      getAccounts().then((res) => setAccounts(res));
+    } else {
+      console.log("error redirection");
     }
   };
 

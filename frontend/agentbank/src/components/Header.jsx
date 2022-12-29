@@ -30,7 +30,7 @@ function Header() {
           <>
             <Link className="main-nav-item" to="./user">
               <i className="fa fa-user-circle"></i>
-              {user.firstName}
+              {sessionStorage.userFirstName}
             </Link>
             <Link
               className="main-nav-item"

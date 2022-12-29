@@ -11,6 +11,7 @@ function SingInForm() {
   const userRef = useRef();
   const errRef = useRef();
   const navigate = useNavigate();
+
   const [email, setEmail] = useState(
     !sessionStorage.email ? "" : sessionStorage.email
   );
@@ -22,7 +23,7 @@ function SingInForm() {
       ? ""
       : JSON.parse(sessionStorage.rememberMe)
   );
-  // const [status, setStatus] = useState("");
+
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 

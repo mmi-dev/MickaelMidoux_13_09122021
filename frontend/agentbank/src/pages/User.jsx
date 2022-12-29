@@ -3,7 +3,7 @@ import { getUserProfile } from "../services/UserServices";
 import UserContext from "../contexts/UserProvider";
 import AccountBalance from "../components/AccountBalance";
 import UserForm from "../components/UserForm";
-import { getAccounts } from "../services/Services";
+import { getMokedAccounts } from "../moks/servicesMock";
 import UserEditModeContext from "../contexts/UserEditModeProvider";
 import { useNavigate } from "react-router-dom";
 
@@ -23,9 +23,19 @@ function User() {
         lastName: response.userProfile.lastName,
         id: response.userProfile.id,
       });
-      getAccounts().then((res) => setAccounts(res));
+      getAccounts();
+      // getAccounts().then((res) => setAccounts(res));
     } else {
       console.log("error redirection");
+    }
+  };
+
+  const getAccounts = async () => {
+    const response = await getMokedAccounts();
+    if (response.responseStatus === 200) {
+      setAccounts(response.data);
+    } else {
+      console.log("error message");
     }
   };
 

@@ -1,14 +1,23 @@
 import { useState, useEffect } from "react";
 import Feature from "../components/Feature";
-import { getFeatures } from "../services/Services";
+import { getMokedFeatures } from "../moks/servicesMock";
 
 function Home() {
   const [features, setFeatures] = useState([]);
 
+  const getFeatures = async () => {
+    const response = await getMokedFeatures();
+    if (response.responseStatus === 200) {
+      setFeatures(response.data);
+    } else {
+      console.log("error message");
+    }
+  };
+
   useEffect(() => {
     document.getElementById("main").classList.remove("bg-dark");
-    getFeatures().then((res) => setFeatures(res));
-  });
+    getFeatures();
+  }, []);
 
   return (
     <>

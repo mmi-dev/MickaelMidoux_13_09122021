@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../contexts/AuthProvider";
 import UserContext from "../contexts/UserProvider";
@@ -6,7 +6,18 @@ import UserContext from "../contexts/UserProvider";
 function Header() {
   const { setAuth } = useContext(AuthContext);
   const { user, setUser } = useContext(UserContext);
+  const [linkFirstName, setLinkFirstName] = useState();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (sessionStorage.userFirstName) {
+      setLinkFirstName(sessionStorage.userFirstName);
+    }
+  }, []);
+
+  useEffect(() => {
+    setLinkFirstName(user.firstName);
+  }, [user]);
 
   return (
     <nav className="main-nav">
@@ -30,7 +41,7 @@ function Header() {
           <>
             <Link className="main-nav-item" to="./user">
               <i className="fa fa-user-circle"></i>
-              {sessionStorage.userFirstName}
+              {linkFirstName}
             </Link>
             <Link
               className="main-nav-item"

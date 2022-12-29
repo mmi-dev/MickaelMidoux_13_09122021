@@ -31,6 +31,7 @@ function User() {
 
   useEffect(() => {
     document.getElementById("main").classList.add("bg-dark");
+    setUserEditMode(false);
     if (sessionStorage.isAuthenticated === "true") {
       getUser();
       console.log("not redirected");

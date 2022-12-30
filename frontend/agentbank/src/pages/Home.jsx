@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react";
-import Feature from "../components/Feature";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setHomeFeaturesData } from "../features/homeFeaturesSlice";
 import { getMokedFeatures } from "../moks/servicesMock";
+import Feature from "../components/Feature";
 
 function Home() {
-  const [features, setFeatures] = useState([]);
+  const dispatch = useDispatch();
+  const featuresData = useSelector((state) => state.homeFeatures.homeFeatures);
 
   const getFeatures = async () => {
     const response = await getMokedFeatures();
     if (response.responseStatus === 200) {
-      setFeatures(response.data);
+      dispatch(setHomeFeaturesData(response.data));
     } else {
       console.log("error message");
     }
@@ -32,8 +35,8 @@ function Home() {
       </div>
       <section className="features">
         <h2 className="sr-only">Features</h2>
-        {features &&
-          features.map((feature, index) => {
+        {featuresData &&
+          featuresData.map((feature, index) => {
             return (
               <Feature
                 key={index}

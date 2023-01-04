@@ -1,23 +1,24 @@
-import { useEffect, useContext, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import AuthContext from "../contexts/AuthProvider";
-import UserContext from "../contexts/UserProvider";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserData } from "../features/userSlice";
+import { Link } from "react-router-dom";
+import { logout } from "../features/authSlice";
 
 function Header() {
-  const { setAuth } = useContext(AuthContext);
-  const { user, setUser } = useContext(UserContext);
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user.user);
+
   const [linkFirstName, setLinkFirstName] = useState();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (sessionStorage.userFirstName) {
-      setLinkFirstName(sessionStorage.userFirstName);
+    if (localStorage.userFirstName) {
+      setLinkFirstName(localStorage.userFirstName);
     }
   }, []);
 
   useEffect(() => {
-    setLinkFirstName(user.firstName);
-  }, [user]);
+    setLinkFirstName(userData.firstName);
+  }, [userData]);
 
   return (
     <nav className="main-nav">
@@ -30,7 +31,7 @@ function Header() {
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <div>
-        {sessionStorage.isAuthenticated !== "true" ? (
+        {localStorage.isAuthenticated !== "true" ? (
           <>
             <Link className="main-nav-item" to="./sign-in">
               <i className="fa fa-user-circle"></i>
@@ -47,10 +48,9 @@ function Header() {
               className="main-nav-item"
               to="./"
               onClick={() => {
-                setAuth({});
-                setUser({});
-                clearSessionStorage();
-                navigate("./");
+                dispatch(setUserData([]));
+                dispatch(logout());
+                localStorage.clear();
               }}
             >
               <i className="fa fa-sign-out"></i>
@@ -62,18 +62,5 @@ function Header() {
     </nav>
   );
 }
-
-const clearSessionStorage = () => {
-  if (sessionStorage.rememberMe !== "true") {
-    sessionStorage.removeItem("email");
-    sessionStorage.removeItem("password");
-    sessionStorage.removeItem("rememberMe");
-  }
-  sessionStorage.removeItem("userFirstName");
-  sessionStorage.removeItem("userLastName");
-  sessionStorage.removeItem("userId");
-  sessionStorage.removeItem("token");
-  sessionStorage.removeItem("isAuthenticated");
-};
 
 export default Header;

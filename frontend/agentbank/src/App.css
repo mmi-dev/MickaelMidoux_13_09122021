@@ -291,6 +291,11 @@ button {
   font-weight: bold;
   padding: 10px;
 }
+.edit-button:disabled {
+  border-color: #b4edd7;
+  background-color: #b4edd7;
+  cursor: initial;
+}
 
 .header {
   color: #fff;
@@ -321,4 +326,13 @@ button {
   .transaction-button {
     width: 200px;
   }
+}
+.edit {
+  display: none;
+}
+.edit-mode .not-edit {
+  display: none;
+}
+.edit-mode .edit {
+  display: block;
 }

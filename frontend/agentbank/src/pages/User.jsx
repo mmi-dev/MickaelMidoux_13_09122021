@@ -1,30 +1,25 @@
-import { useEffect, useContext, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserData, getUserAccounts } from "../features/userSlice";
 import { getUserProfile } from "../services/UserServices";
-import UserContext from "../contexts/UserProvider";
 import AccountBalance from "../components/AccountBalance";
 import UserForm from "../components/UserForm";
 import { getMokedAccounts } from "../moks/servicesMock";
-import UserEditModeContext from "../contexts/UserEditModeProvider";
 import { useNavigate } from "react-router-dom";
 
 function User() {
-  const { userEditMode, setUserEditMode } = useContext(UserEditModeContext);
-  const [accounts, setAccounts] = useState([]);
-  const { user, setUser } = useContext(UserContext);
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user.user);
+  const userAccountsData = useSelector((state) => state.user.user.accounts);
 
   const navigate = useNavigate();
 
   const getUser = async () => {
-    const response = await getUserProfile(sessionStorage.token);
+    const response = await getUserProfile(localStorage.userToken);
     if (response.responseStatus === 200) {
-      setUser({
-        ...user,
-        firstName: response.userProfile.firstName,
-        lastName: response.userProfile.lastName,
-        id: response.userProfile.id,
-      });
+      dispatch(setUserData(response.userProfile));
+
       getAccounts();
-      // getAccounts().then((res) => setAccounts(res));
     } else {
       console.log("error redirection");
     }
@@ -33,7 +28,7 @@ function User() {
   const getAccounts = async () => {
     const response = await getMokedAccounts();
     if (response.responseStatus === 200) {
-      setAccounts(response.data);
+      dispatch(getUserAccounts(response.data));
     } else {
       console.log("error message");
     }
@@ -41,53 +36,43 @@ function User() {
 
   useEffect(() => {
     document.getElementById("main").classList.add("bg-dark");
-    setUserEditMode(false);
-    if (sessionStorage.isAuthenticated === "true") {
+    if (localStorage.isAuthenticated === "true") {
       getUser();
-      console.log("not redirected");
     } else {
       navigate("/sign-in");
-      console.log("redirected");
     }
   }, []);
 
   useEffect(() => {
-    sessionStorage.setItem("userFirstName", user.firstName);
-    sessionStorage.setItem("userLastName", user.lastName);
-    sessionStorage.setItem("userId", user.id);
-    sessionStorage.setItem("rememberMe", user.remember);
-  }, [user]);
+    localStorage.setItem("userFirstName", userData.firstName);
+  }, [userData]);
+
+  const editBlock = document.getElementById("edit");
 
   return (
     <>
-      <div className="header">
-        {!userEditMode ? (
-          <h1>
-            Welcome back
+      <div id="edit" className="header ">
+        <h1 visibility="hidden">
+          Welcome back
+          <span className="not-edit">
             <br />
-            {user.firstName} {user.lastName}!
-          </h1>
-        ) : (
-          <h1>Welcome back</h1>
-        )}
-        {!userEditMode && (
-          <button
-            className="edit-button"
-            onClick={() => {
-              setUserEditMode(!userEditMode);
-            }}
-          >
-            Edit Name
-          </button>
-        )}
-        {userEditMode && (
-          <UserForm firstName={user.firstName} lastName={user.lastName} />
-        )}
+            {userData.firstName} {userData.lastName}!
+          </span>
+        </h1>
+        <button
+          className="edit-button not-edit"
+          onClick={() => {
+            editBlock.classList.add("edit-mode");
+          }}
+        >
+          Edit Name
+        </button>
+        <UserForm firstName={userData.firstName} lastName={userData.lastName} />
       </div>
 
       <h2 className="sr-only">Accounts</h2>
-      {accounts &&
-        accounts.map((account, index) => {
+      {"accounts" in userData &&
+        userAccountsData.map((account, index) => {
           return (
             <AccountBalance
               key={index}

@@ -12,7 +12,6 @@ export const signInUser = async (email, password) => {
         headers: { "Content-Type": "application/json" },
       }
     );
-    console.log(response.data);
     const responseStatus = response.status;
     const responseMessage = response.data.message;
     if (response.data.body.token) {
@@ -36,7 +35,6 @@ export const signUpUser = async (email, password, firstName, lastName) => {
         headers: { "Content-Type": "application/json" },
       }
     );
-    console.log(response.data);
     const responseStatus = response.status;
     const responseMessage = response.data.message;
     if (response.data.body.token) {
@@ -59,7 +57,6 @@ export const getUserProfile = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data);
     const responseStatus = response.status;
     const responseMessage = response.data.message;
     if (response.data.body) {
@@ -86,7 +83,6 @@ export const updateUserProfile = async (token, firstName, lastName) => {
         },
       }
     );
-    console.log(response.data);
     const responseStatus = response.status;
     const responseMessage = response.data.message;
     if (response.data.body) {

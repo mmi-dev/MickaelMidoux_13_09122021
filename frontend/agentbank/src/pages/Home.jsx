@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setHomeFeaturesData } from "../features/homeFeaturesSlice";
-import { getMokedFeatures } from "../moks/servicesMock";
+import { getMokedFeatures } from "../mocks/servicesMock";
 import Feature from "../components/Feature";
 
 function Home() {

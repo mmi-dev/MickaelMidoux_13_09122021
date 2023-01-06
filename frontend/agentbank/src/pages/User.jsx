@@ -4,7 +4,7 @@ import { setUserData, getUserAccounts } from "../features/userSlice";
 import { getUserProfile } from "../services/UserServices";
 import AccountBalance from "../components/AccountBalance";
 import UserForm from "../components/UserForm";
-import { getMokedAccounts } from "../moks/servicesMock";
+import { getMokedAccounts } from "../mocks/servicesMock";
 import { useNavigate } from "react-router-dom";
 
 function User() {

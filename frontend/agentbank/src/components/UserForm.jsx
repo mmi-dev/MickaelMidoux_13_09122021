@@ -1,12 +1,12 @@
-import { useContext, useRef, useEffect, useState } from "react";
-import UserEditModeContext from "../contexts/UserEditModeProvider";
-import UserContext from "../contexts/UserProvider";
-
+import { useRef, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../features/userSlice";
 import { updateUserProfile } from "../services/UserServices";
 
 function UserForm({ firstName, lastName }) {
-  const { userEditMode, setUserEditMode } = useContext(UserEditModeContext);
-  const { user, setUser } = useContext(UserContext);
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user.user);
+
   const userRef = useRef();
   const errRef = useRef();
 
@@ -16,18 +16,19 @@ function UserForm({ firstName, lastName }) {
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const editBlock = document.getElementById("edit");
+
   useEffect(() => {
     userRef.current.focus();
   }, []);
 
   useEffect(() => {
     if (success) {
-      setUser({
-        ...user,
-        firstName: updatedFirstName,
-        lastName: updatedLastName,
-      });
-      setUserEditMode(!userEditMode);
+      dispatch(
+        updateUser({ firstName: updatedFirstName, lastName: updatedLastName })
+      );
+      editBlock.classList.remove("edit-mode");
+      setSuccess(false);
     }
   }, [success]);
 
@@ -35,11 +36,10 @@ function UserForm({ firstName, lastName }) {
     e.preventDefault();
 
     const res = await updateUserProfile(
-      sessionStorage.token,
+      localStorage.userToken,
       updatedFirstName,
       updatedLastName
     );
-
     if (res.responseStatus === 200) {
       setSuccess(true);
     } else {
@@ -49,7 +49,7 @@ function UserForm({ firstName, lastName }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="edit">
       <div className="inputs">
         <input
           type="text"
@@ -70,12 +70,20 @@ function UserForm({ firstName, lastName }) {
         />
       </div>
       <div className="buttons">
-        <button className="edit-button">Save</button>
+        <button
+          className="edit-button"
+          disabled={
+            userData.firstName === updatedFirstName &&
+            userData.lastName === updatedLastName
+          }
+        >
+          Save
+        </button>
         <button
           className="edit-button"
           onClick={(e) => {
             e.preventDefault();
-            setUserEditMode(!userEditMode);
+            editBlock.classList.remove("edit-mode");
           }}
         >
           Cancel

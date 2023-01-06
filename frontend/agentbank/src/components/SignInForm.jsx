@@ -1,28 +1,29 @@
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../contexts/AuthProvider";
-import UserContext from "../contexts/UserProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../features/authSlice";
 
 import { signInUser } from "../services/UserServices";
 
 function SingInForm() {
-  const { auth, setAuth } = useContext(AuthContext);
-  const { user, setUser } = useContext(UserContext);
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
   const userRef = useRef();
   const errRef = useRef();
   const navigate = useNavigate();
+
   const [email, setEmail] = useState(
-    !sessionStorage.email ? "" : sessionStorage.email
+    !localStorage.userLogin ? "" : localStorage.userLogin
   );
   const [password, setPassword] = useState(
-    !sessionStorage.password ? "" : sessionStorage.password
+    !localStorage.password ? "" : localStorage.password
   );
   const [remember, setRemember] = useState(
-    !sessionStorage.rememberMe || sessionStorage.rememberMe !== "true"
+    !localStorage.rememberMe || localStorage.rememberMe !== "true"
       ? ""
-      : JSON.parse(sessionStorage.rememberMe)
+      : JSON.parse(localStorage.rememberMe)
   );
-  // const [status, setStatus] = useState("");
+
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
@@ -31,18 +32,16 @@ function SingInForm() {
   }, []);
 
   useEffect(() => {
-    setErrMsg("");
-  }, [email, password]);
-
-  useEffect(() => {
     if (success) {
-      sessionStorage.setItem("email", auth.email);
-      sessionStorage.setItem("password", auth.password);
-      sessionStorage.setItem("token", auth.accessToken);
-      sessionStorage.setItem("isAuthenticated", auth.authenticated);
+      setEmail("");
+      setPassword("");
+      localStorage.setItem("userLogin", auth.loginData.email);
+      localStorage.setItem("userToken", auth.userToken);
+      localStorage.setItem("isAuthenticated", auth.authenticated);
+      localStorage.setItem("rememberMe", remember);
       navigate("/user");
     }
-  }, [success]);
+  }, [success, auth]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,12 +50,7 @@ function SingInForm() {
 
     if (res.responseStatus === 200) {
       const accessToken = res.accessToken;
-      setAuth({ ...auth, email, password, accessToken, authenticated: true });
-      setUser({ ...user, email, password, remember });
-      if (!remember) {
-        setEmail("");
-        setPassword("");
-      }
+      dispatch(login({ email, password, accessToken }));
       setSuccess(true);
     } else {
       setErrMsg(res.responseStatus + " " + res.responseMessage);

@@ -1,25 +1,42 @@
 import { createSlice } from "@reduxjs/toolkit";
+import useStorage from "../hooks/useStorage";
+
+const storage = useStorage();
 
 // initialize data from local storage
-const userToken = localStorage.getItem("userToken")
-  ? localStorage.getItem("userToken")
-  : null;
-const authenticated = localStorage.getItem("isAuthenticated")
-  ? localStorage.getItem("isAuthenticated")
+const userToken = storage.get("userToken", true)
+  ? storage.get("userToken", true)
+  : storage.get("userToken", false)
+  ? storage.get("userToken", false)
+  : "";
+const authenticated = storage.get("isAuthenticated", true)
+  ? storage.get("isAuthenticated", true)
+  : storage.get("isAuthenticated", false)
+  ? storage.get("isAuthenticated", false)
+  : false;
+const persist = storage.get("rememberMe", true)
+  ? storage.get("rememberMe", true)
+  : storage.get("rememberMe", false)
+  ? storage.get("rememberMe", false)
   : false;
 const loginData = {
-  email: localStorage.getItem("userLogin")
-    ? localStorage.getItem("userLogin")
-    : null,
-  password: localStorage.getItem("userPwd")
-    ? localStorage.getItem("userPwd")
-    : null,
+  email: storage.get("userLogin", true)
+    ? storage.get("userLogin", true)
+    : storage.get("userLogin", false)
+    ? storage.get("userLogin", false)
+    : "",
+  password: storage.get("userPwd", true)
+    ? storage.get("userPwd", true)
+    : storage.get("userPwd", false)
+    ? storage.get("userPwd", false)
+    : "",
 };
 
 const initialState = {
   loginData,
   userToken,
   authenticated,
+  persist,
 };
 
 export const authSlice = createSlice({

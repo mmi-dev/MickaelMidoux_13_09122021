@@ -19,6 +19,7 @@ function Home() {
 
   useEffect(() => {
     document.getElementById("main").classList.remove("bg-dark");
+    document.getElementById("main").classList.remove("bg-mobile-w");
     getFeatures();
   }, []);
 

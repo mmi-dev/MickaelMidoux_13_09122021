@@ -1,9 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import useStorage from "../hooks/useStorage";
+
+const storage = useStorage();
 
 // initialize data from local storage
-const userFirstName = localStorage.getItem("userFirstName")
-  ? localStorage.getItem("userFirstName")
-  : null;
+const userFirstName = storage.get("userFirstName", true)
+  ? storage.get("userFirstName", true)
+  : storage.get("userFirstName", false)
+  ? storage.get("userFirstName", false)
+  : "";
 
 export const userSlice = createSlice({
   name: "user",

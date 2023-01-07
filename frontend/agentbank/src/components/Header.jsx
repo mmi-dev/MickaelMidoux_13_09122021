@@ -3,16 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../features/userSlice";
 import { Link } from "react-router-dom";
 import { logout } from "../features/authSlice";
+import useStorage from "../hooks/useStorage";
 
 function Header() {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.user);
+  const auth = useSelector((state) => state.auth);
+
+  const storage = useStorage();
 
   const [linkFirstName, setLinkFirstName] = useState();
 
   useEffect(() => {
-    if (localStorage.userFirstName) {
-      setLinkFirstName(localStorage.userFirstName);
+    if (userData.firstName) {
+      setLinkFirstName(userData.firstName);
     }
   }, []);
 
@@ -31,18 +35,18 @@ function Header() {
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <div>
-        {localStorage.isAuthenticated !== "true" ? (
+        {!auth.authenticated ? (
           <>
             <Link className="main-nav-item" to="./sign-in">
               <i className="fa fa-user-circle"></i>
-              Sign In
+              <span>Sign In</span>
             </Link>
           </>
         ) : (
           <>
             <Link className="main-nav-item" to="./user">
               <i className="fa fa-user-circle"></i>
-              {linkFirstName}
+              <span>{linkFirstName}</span>
             </Link>
             <Link
               className="main-nav-item"
@@ -50,11 +54,12 @@ function Header() {
               onClick={() => {
                 dispatch(setUserData([]));
                 dispatch(logout());
-                localStorage.clear();
+                storage.clear(true);
+                storage.clear(false);
               }}
             >
               <i className="fa fa-sign-out"></i>
-              Sign Out
+              <span>Sign Out</span>
             </Link>
           </>
         )}

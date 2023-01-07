@@ -336,3 +336,27 @@ button {
 .edit-mode .edit {
   display: block;
 }
+@media (max-width: 720px) {
+  .inputs {
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .inputs input {
+    width: 80%;
+  }
+  .sign-in-content {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 0;
+  }
+  .main-nav span {
+    display: none;
+  }
+  .main-nav-item {
+    margin-right: 0;
+    margin-left: 1rem;
+  }
+  .bg-mobile-w {
+    background-color: white;
+  }
+}

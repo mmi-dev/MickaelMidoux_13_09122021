@@ -6,12 +6,13 @@ import { updateUserProfile } from "../services/UserServices";
 function UserForm({ firstName, lastName }) {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.user);
+  const auth = useSelector((state) => state.auth);
 
   const userRef = useRef();
   const errRef = useRef();
 
-  const [updatedFirstName, setUpdatedFirstName] = useState(firstName);
-  const [updatedLastName, setUpdatedLastName] = useState(lastName);
+  const [updatedFirstName, setUpdatedFirstName] = useState(userData.firstName);
+  const [updatedLastName, setUpdatedLastName] = useState(userData.lastName);
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
@@ -36,7 +37,7 @@ function UserForm({ firstName, lastName }) {
     e.preventDefault();
 
     const res = await updateUserProfile(
-      localStorage.userToken,
+      auth.userToken,
       updatedFirstName,
       updatedLastName
     );

@@ -6,19 +6,22 @@ import AccountBalance from "../components/AccountBalance";
 import UserForm from "../components/UserForm";
 import { getMokedAccounts } from "../mocks/servicesMock";
 import { useNavigate } from "react-router-dom";
+import useStorage from "../hooks/useStorage";
 
 function User() {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.user);
   const userAccountsData = useSelector((state) => state.user.user.accounts);
+  const auth = useSelector((state) => state.auth);
+
+  const storage = useStorage();
 
   const navigate = useNavigate();
 
   const getUser = async () => {
-    const response = await getUserProfile(localStorage.userToken);
+    const response = await getUserProfile(auth.userToken);
     if (response.responseStatus === 200) {
       dispatch(setUserData(response.userProfile));
-
       getAccounts();
     } else {
       console.log("error redirection");
@@ -36,7 +39,8 @@ function User() {
 
   useEffect(() => {
     document.getElementById("main").classList.add("bg-dark");
-    if (localStorage.isAuthenticated === "true") {
+    document.getElementById("main").classList.remove("bg-mobile-w");
+    if (auth.authenticated) {
       getUser();
     } else {
       navigate("/sign-in");
@@ -44,7 +48,8 @@ function User() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("userFirstName", userData.firstName);
+    console.log(auth.persist);
+    storage.set("userFirstName", userData.firstName, auth.persist);
   }, [userData]);
 
   const editBlock = document.getElementById("edit");

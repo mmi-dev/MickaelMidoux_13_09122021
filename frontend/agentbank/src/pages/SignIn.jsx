@@ -1,13 +1,16 @@
 import { useEffect } from "react";
 import SingInForm from "../components/SignInForm";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function SignIn() {
   const navigate = useNavigate();
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     document.getElementById("main").classList.add("bg-dark");
-    if (sessionStorage.isAuthenticated === "true") {
+    document.getElementById("main").classList.add("bg-mobile-w");
+    if (auth.authenticated) {
       navigate("/user");
     }
   });

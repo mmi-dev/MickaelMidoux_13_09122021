@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../features/authSlice";
-
 import { signInUser } from "../services/UserServices";
+import useStorage from "../hooks/useStorage";
 
 function SingInForm() {
   const dispatch = useDispatch();
@@ -12,17 +12,11 @@ function SingInForm() {
   const errRef = useRef();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState(
-    !localStorage.userLogin ? "" : localStorage.userLogin
-  );
-  const [password, setPassword] = useState(
-    !localStorage.password ? "" : localStorage.password
-  );
-  const [remember, setRemember] = useState(
-    !localStorage.rememberMe || localStorage.rememberMe !== "true"
-      ? ""
-      : JSON.parse(localStorage.rememberMe)
-  );
+  const storage = useStorage();
+
+  const [email, setEmail] = useState(auth.loginData.email);
+  const [password, setPassword] = useState(auth.loginData.password);
+  const [remember, setRemember] = useState(auth.loginData.persist);
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
@@ -35,10 +29,10 @@ function SingInForm() {
     if (success) {
       setEmail("");
       setPassword("");
-      localStorage.setItem("userLogin", auth.loginData.email);
-      localStorage.setItem("userToken", auth.userToken);
-      localStorage.setItem("isAuthenticated", auth.authenticated);
-      localStorage.setItem("rememberMe", remember);
+      storage.set("userLogin", auth.loginData.email, remember);
+      storage.set("userToken", auth.userToken, remember);
+      storage.set("isAuthenticated", auth.authenticated, remember);
+      storage.set("rememberMe", remember, remember);
       navigate("/user");
     }
   }, [success, auth]);
@@ -68,7 +62,6 @@ function SingInForm() {
           ref={userRef}
           autoComplete="username"
           onChange={(e) => setEmail(e.target.value)}
-          value={email}
           required
         />
       </div>
@@ -79,7 +72,6 @@ function SingInForm() {
           id="password"
           autoComplete="current-password"
           onChange={(e) => setPassword(e.target.value)}
-          value={password}
           required
         />
       </div>
@@ -87,7 +79,6 @@ function SingInForm() {
         <input
           type="checkbox"
           id="remember-me"
-          checked={remember}
           onChange={(e) => {
             setRemember(e.target.checked);
           }}

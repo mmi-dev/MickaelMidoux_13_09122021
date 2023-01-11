@@ -10,14 +10,14 @@ const userToken = storage.get("userToken", true)
   ? storage.get("userToken", false)
   : "";
 const authenticated = storage.get("isAuthenticated", true)
-  ? storage.get("isAuthenticated", true)
+  ? JSON.parse(storage.get("isAuthenticated", true))
   : storage.get("isAuthenticated", false)
-  ? storage.get("isAuthenticated", false)
+  ? JSON.parse(storage.get("isAuthenticated", false))
   : false;
 const persist = storage.get("rememberMe", true)
-  ? storage.get("rememberMe", true)
+  ? JSON.parse(storage.get("rememberMe", true))
   : storage.get("rememberMe", false)
-  ? storage.get("rememberMe", false)
+  ? JSON.parse(storage.get("rememberMe", false))
   : false;
 const loginData = {
   email: storage.get("userLogin", true)
@@ -50,11 +50,13 @@ export const authSlice = createSlice({
       };
       state.userToken = payload.accessToken;
       state.authenticated = true;
+      state.persist = payload.remember;
     },
     logout: (state, { payload }) => {
       state.loginData = {};
       state.userToken = null;
       state.authenticated = false;
+      state.persist = false;
     },
   },
 });

@@ -16,7 +16,7 @@ function SingInForm() {
 
   const [email, setEmail] = useState(auth.loginData.email);
   const [password, setPassword] = useState(auth.loginData.password);
-  const [remember, setRemember] = useState(auth.loginData.persist);
+  const [remember, setRemember] = useState(auth.persist);
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
@@ -29,10 +29,14 @@ function SingInForm() {
     if (success) {
       setEmail("");
       setPassword("");
-      storage.set("userLogin", auth.loginData.email, remember);
-      storage.set("userToken", auth.userToken, remember);
-      storage.set("isAuthenticated", auth.authenticated, remember);
-      storage.set("rememberMe", remember, remember);
+      storage.set("userLogin", auth.loginData.email, auth.persist);
+      storage.set("userToken", auth.userToken, auth.persist);
+      storage.set(
+        "isAuthenticated",
+        JSON.stringify(auth.authenticated),
+        auth.persist
+      );
+      storage.set("rememberMe", JSON.stringify(auth.persist), auth.persist);
       navigate("/user");
     }
   }, [success, auth]);
@@ -44,7 +48,7 @@ function SingInForm() {
 
     if (res.responseStatus === 200) {
       const accessToken = res.accessToken;
-      dispatch(login({ email, password, accessToken }));
+      dispatch(login({ email, password, accessToken, remember }));
       setSuccess(true);
     } else {
       setErrMsg(res.responseStatus + " " + res.responseMessage);

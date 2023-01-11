@@ -29,6 +29,11 @@ function UserForm({ firstName, lastName }) {
   }, []);
 
   useEffect(() => {
+    setUpdatedFirstName(userData.firstName);
+    setUpdatedLastName(userData.lastName);
+  }, [userData]);
+
+  useEffect(() => {
     if (success) {
       dispatch(
         updateUser({ firstName: updatedFirstName, lastName: updatedLastName })

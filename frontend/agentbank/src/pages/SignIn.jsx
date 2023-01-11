@@ -13,7 +13,7 @@ function SignIn() {
     if (auth.authenticated) {
       navigate("/user");
     }
-  });
+  }, []);
 
   return (
     <section className="sign-in-content">

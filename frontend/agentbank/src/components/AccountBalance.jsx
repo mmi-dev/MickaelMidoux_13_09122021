@@ -1,3 +1,9 @@
+/**
+ * account summury bloc on user page
+ * @param {string} title account name
+ * @param {number} amount account balance
+ * @param {string} desciption account description
+ */
 function AccountBalance({ title, amount, description }) {
   return (
     <section className="account">

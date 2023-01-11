@@ -3,6 +3,11 @@ const LOGIN_URL = "/user/login";
 const SIGNUP_URL = "/user/signup";
 const PROFILE_URL = "/user/profile";
 
+/**
+ * API login request
+ * @param {string} email user email
+ * @param {string} password user password
+ */
 export const signInUser = async (email, password) => {
   try {
     const response = await axios.post(
@@ -26,6 +31,13 @@ export const signInUser = async (email, password) => {
   }
 };
 
+/**
+ * API send user signup
+ * @param {string} email
+ * @param {string} password
+ * @param {string} firstName
+ * @param {string} lastName
+ */
 export const signUpUser = async (email, password, firstName, lastName) => {
   try {
     const response = await axios.post(
@@ -49,6 +61,10 @@ export const signUpUser = async (email, password, firstName, lastName) => {
   }
 };
 
+/**
+ * API user profile request
+ * @param {string} token
+ */
 export const getUserProfile = async (token) => {
   try {
     const response = await axios.post(PROFILE_URL, JSON.stringify(), {
@@ -71,6 +87,12 @@ export const getUserProfile = async (token) => {
   }
 };
 
+/**
+ * API send user profile update
+ * @param {string} token
+ * @param {string} firstName
+ * @param {string} lastName
+ */
 export const updateUserProfile = async (token, firstName, lastName) => {
   try {
     const response = await axios.put(

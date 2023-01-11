@@ -1,3 +1,6 @@
+/**
+ * footer section
+ */
 function Footer() {
   return (
     <footer className="footer">

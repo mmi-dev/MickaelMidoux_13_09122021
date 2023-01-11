@@ -3,6 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../features/userSlice";
 import { updateUserProfile } from "../services/UserServices";
 
+/**
+ * user profile update form
+ * @param {string} props.firstName
+ * @param {string} props.lastName
+ */
 function UserForm({ firstName, lastName }) {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.user);

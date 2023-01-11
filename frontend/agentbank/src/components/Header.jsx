@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import { logout } from "../features/authSlice";
 import useStorage from "../hooks/useStorage";
 
+/**
+ * header section with logo & navigation
+ */
 function Header() {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.user);

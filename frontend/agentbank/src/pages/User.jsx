@@ -48,7 +48,6 @@ function User() {
   }, []);
 
   useEffect(() => {
-    console.log(auth.persist);
     storage.set("userFirstName", userData.firstName, auth.persist);
     storage.set("userLastName", userData.lastName, auth.persist);
   }, [userData]);

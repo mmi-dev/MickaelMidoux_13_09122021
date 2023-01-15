@@ -326,15 +326,26 @@ button {
   .transaction-button {
     width: 200px;
   }
-}
-.edit {
-  display: none;
-}
-.edit-mode .not-edit {
-  display: none;
-}
-.edit-mode .edit {
-  display: block;
+  .edit {
+    display: none;
+  }
+  .edit-mode .not-edit {
+    display: none;
+  }
+  .edit-mode .edit {
+    display: block;
+  }
+  .errmsg {
+    color: red;
+    font-weight: bold;
+  }
+  .errmsg span {
+    font-size: 0.7em;
+    font-weight: normal;
+  }
+  .offscreen {
+    display: none;
+  }
 }
 @media (max-width: 720px) {
   .inputs {

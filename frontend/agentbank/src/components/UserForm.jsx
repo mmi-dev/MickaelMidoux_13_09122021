@@ -105,7 +105,9 @@ function UserForm({ firstName, lastName }) {
         className={errMsg ? "errmsg" : "offscreen"}
         aria-live="assertive"
       >
-        {errMsg}
+        Il y a eu un problème
+        <br />
+        <span>{errMsg}</span>
       </p>
     </form>
   );

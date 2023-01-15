@@ -95,7 +95,9 @@ function SingInForm() {
         className={errMsg ? "errmsg" : "offscreen"}
         aria-live="assertive"
       >
-        {errMsg}
+        Problème de connexion
+        <br />
+        <span>{errMsg}</span>
       </p>
     </form>
   );
